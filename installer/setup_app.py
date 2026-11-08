@@ -181,7 +181,9 @@ def kill_running() -> None:
         pass
 
 
-def perform_install(target: Path, shortcuts: bool = True, log=print) -> Path:
+def perform_install(
+    target: Path, shortcuts: bool = True, log=print, register: bool = True
+) -> Path:
     payload = payload_dir()
     folder_mode = (payload / "app").is_dir()
     if folder_mode:
@@ -220,9 +222,10 @@ def perform_install(target: Path, shortcuts: bool = True, log=print) -> Path:
         log("正在创建桌面和开始菜单快捷方式…")
         create_shortcuts(dest)
 
-    log("正在写入卸载信息…")
-    if not register_uninstall(target):
-        log(f"（提示）未能写入卸载信息：{_LAST_REG_ERROR}")
+    if register:
+        log("正在写入卸载信息…")
+        if not register_uninstall(target):
+            log(f"（提示）未能写入卸载信息：{_LAST_REG_ERROR}")
 
     log("安装完成")
     return dest
@@ -473,6 +476,7 @@ def run_cli(argv: list[str]) -> int:
     target = Path(arg_value("--dir") or default_target())
     shortcuts = "--no-shortcuts" not in argv
     launch = "--no-launch" not in argv
+    register = "--no-register" not in argv
 
     lines: list[str] = []
 
@@ -480,7 +484,9 @@ def run_cli(argv: list[str]) -> int:
         lines.append(message)
 
     try:
-        dest = perform_install(target, shortcuts=shortcuts, log=log)
+        dest = perform_install(
+            target, shortcuts=shortcuts, log=log, register=register
+        )
         log(f"OK {dest}")
         code = 0
     except Exception:
