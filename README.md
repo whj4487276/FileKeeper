@@ -3,6 +3,19 @@
 一个在 Windows 上本地运行的桌面工具箱：**定时关机、时间闹钟、计时器、快速截图、文件备份**。
 所有数据都保存在你自己的电脑上，不联网、不上传、无第三方运行时依赖（标准库 + tkinter）。
 
+## 获取代码
+
+```bash
+git clone https://github.com/whj4487276/FileKeeper.git
+cd FileKeeper
+python main.py
+```
+
+运行环境：**Windows 10/11 + Python 3.10+**（推荐 3.12）。程序只使用标准库和 tkinter，不需要 `pip install`。
+
+也可以直接下载仓库 ZIP 后双击 `run.bat`。如果你不想装 Python，可使用本地构建的
+`dist\电脑百宝箱.exe` 或安装包（构建产物不在仓库中，原因见 `.gitignore`）。
+
 ![备份任务](docs/screenshots/02-tasks.png)
 
 ## 功能模块
@@ -241,7 +254,8 @@
 
 ### 方式二：命令行
 ```bat
-cd /d "D:\DH GZQ\FileKeeper"
+git clone https://github.com/whj4487276/FileKeeper.git
+cd FileKeeper
 python main.py
 ```
 
@@ -386,3 +400,11 @@ python tests\test_tray_menu.py  :: 托盘右键菜单逐项有效性
 - 时间闹钟由本软件计时，需要程序保持运行（最小化到托盘可以）。
 - 不监听文件系统实时变化，即时备份请用「立即备份」或把间隔设短。
 - 只备份文件内容与时间戳，不保留 NTFS 权限、符号链接、备用数据流。
+
+---
+
+## 许可证
+
+本项目使用 [MIT License](LICENSE)。你可以自由复制、修改、分发和商用，保留版权与许可声明即可。
+
+如果你发现安全问题，建议先通过 GitHub 私下报告，不要直接公开利用细节；参见 [SECURITY.md](SECURITY.md)。
