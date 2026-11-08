@@ -11,7 +11,7 @@
 
 请不要在公开 Issue 中粘贴可直接利用的细节、真实个人路径、配置文件、日志或访问令牌。
 
-优先使用 GitHub 仓库的 **Security → Report a vulnerability** 私下报告，并附：
+优先使用 GitHub 仓库的 **Security → Report a vulnerability**（若该入口可用）私下报告，并附：
 
 - 受影响版本 / 提交；
 - Windows 版本与 Python 版本；
