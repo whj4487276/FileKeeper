@@ -1,0 +1,26 @@
+# 运行时数据：配置、日志、备份记录不进入仓库
+data/
+*.log
+
+# 构建产物
+dist/
+build/
+*.spec
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 编辑器 / 系统文件
+.idea/
+.vscode/
+Thumbs.db
+desktop.ini
+
+# 临时测试文件
+_tmp*
