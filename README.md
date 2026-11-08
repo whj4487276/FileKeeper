@@ -13,6 +13,14 @@ python main.py
 
 运行环境：**Windows 10/11 + Python 3.10+**（推荐 3.12）。程序只使用标准库和 tkinter，不需要 `pip install`。
 
+### 直接下载（免 Python）
+
+不想安装 Python 时，可直接从 [GitHub Releases](https://github.com/whj4487276/FileKeeper/releases/latest)
+下载：
+
+- **安装版**：`FileKeeper-2.2.1-Setup.exe`，带桌面/开始菜单快捷方式；
+- **便携版**：`FileKeeper-2.2.1-Portable.exe`，单文件，配置在 exe 同目录的 `data\`。
+
 也可以直接下载仓库 ZIP 后双击 `run.bat`。如果你不想装 Python，可使用本地构建的
 `dist\电脑百宝箱.exe` 或安装包（构建产物不在仓库中，原因见 `.gitignore`）。
 
