@@ -34,6 +34,7 @@ if errorlevel 2 goto :keepdata
 echo.
 echo   正在删除程序文件和 data 文件夹...
 if exist "%DEST%\电脑百宝箱.exe" del /f /q "%DEST%\电脑百宝箱.exe" >nul 2>nul
+if exist "%DEST%\_internal" rmdir /s /q "%DEST%\_internal" >nul 2>nul
 if exist "%DEST%\install_log.txt" del /f /q "%DEST%\install_log.txt" >nul 2>nul
 if exist "%DEST%\data" rmdir /s /q "%DEST%\data" >nul 2>nul
 goto :cleanup
@@ -42,6 +43,7 @@ goto :cleanup
 echo.
 echo   正在删除程序文件，保留 data 文件夹...
 if exist "%DEST%\电脑百宝箱.exe" del /f /q "%DEST%\电脑百宝箱.exe" >nul 2>nul
+if exist "%DEST%\_internal" rmdir /s /q "%DEST%\_internal" >nul 2>nul
 if exist "%DEST%\install_log.txt" del /f /q "%DEST%\install_log.txt" >nul 2>nul
 
 :cleanup

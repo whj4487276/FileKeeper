@@ -512,6 +512,7 @@ def test_uninstaller_guard() -> None:
     text = (ROOT / "installer" / "uninstall.bat").read_text(encoding="utf-8")
     check('rmdir /s /q "%DEST%"' not in text, "不再 rmdir 整个安装目录")
     check('rmdir /s /q "%DEST%\\data"' in text, "只清理专用 data 目录")
+    check('rmdir /s /q "%DEST%\\_internal"' in text, "目录版会清理 _internal")
     check('rmdir "%DEST%" 2^>nul' in text, "只尝试删除空目录")
 
 

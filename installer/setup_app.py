@@ -22,6 +22,19 @@ EXE_NAME = "电脑百宝箱.exe"
 UNINSTALL_NAME = "uninstall.bat"
 UNINSTALL_KEY = r"Software\Microsoft\Windows\CurrentVersion\Uninstall\FileKeeper"
 
+
+def _is_folder_payload() -> bool:
+    """目录版安装包的 payload 是 payload\app 文件夹。"""
+    try:
+        return (payload_dir() / "app").is_dir()
+    except Exception:
+        return False
+
+
+def variant_suffix() -> str:
+    return "（目录版）" if _is_folder_payload() else ""
+
+
 BG = "#101218"
 CARD = "#171B23"
 BORDER = "#2A3140"
@@ -170,9 +183,16 @@ def kill_running() -> None:
 
 def perform_install(target: Path, shortcuts: bool = True, log=print) -> Path:
     payload = payload_dir()
-    source = payload / EXE_NAME
-    if not source.exists():
-        raise FileNotFoundError(f"安装包内缺少 {EXE_NAME}")
+    folder_mode = (payload / "app").is_dir()
+    if folder_mode:
+        source_dir = payload / "app"
+        source = source_dir / EXE_NAME
+        if not source.exists():
+            raise FileNotFoundError(f"安装包内缺少目录版程序：{source}")
+    else:
+        source = payload / EXE_NAME
+        if not source.exists():
+            raise FileNotFoundError(f"安装包内缺少 {EXE_NAME}")
 
     log("正在结束已运行的实例…")
     kill_running()
@@ -182,7 +202,15 @@ def perform_install(target: Path, shortcuts: bool = True, log=print) -> Path:
 
     log("正在复制程序文件…")
     dest = target / EXE_NAME
-    shutil.copy2(source, dest)
+    if folder_mode:
+        # 目录版：exe + _internal 等完整目录树；只清理旧 _internal，
+        # 保留目标目录里的 data（配置/日志）和其他用户文件。
+        old_internal = target / "_internal"
+        if old_internal.exists():
+            shutil.rmtree(old_internal, ignore_errors=True)
+        shutil.copytree(source_dir, target, dirs_exist_ok=True)
+    else:
+        shutil.copy2(source, dest)
 
     payload_uninstall = payload / UNINSTALL_NAME
     if payload_uninstall.exists():
@@ -206,7 +234,7 @@ def run_gui() -> int:
     from tkinter import filedialog, messagebox
 
     root = tk.Tk()
-    root.title(f"{APP_NAME} 安装程序")
+    root.title(f"{APP_NAME}{variant_suffix()} 安装程序")
     root.configure(bg=BG)
     width, height = 620, 470
     screen_w = root.winfo_screenwidth()
@@ -240,7 +268,7 @@ def run_gui() -> int:
     text_box = tk.Frame(header, bg=BG)
     text_box.pack(side="left", fill="x", expand=True)
     tk.Label(
-        text_box, text=f"安装 {APP_NAME}", bg=BG, fg=TEXT, font=("Microsoft YaHei UI", 18, "bold")
+        text_box, text=f"安装 {APP_NAME}{variant_suffix()}", bg=BG, fg=TEXT, font=("Microsoft YaHei UI", 18, "bold")
     ).pack(anchor="w")
     tk.Label(
         text_box,
@@ -324,7 +352,12 @@ def run_gui() -> int:
 
     status = tk.Label(
         inner,
-        text="点击「开始安装」继续。程序会安装到当前用户目录，不需要管理员权限。",
+        text=(
+            "点击「开始安装」继续。目录版会安装 exe 和 _internal 等多个文件/文件夹；"
+            "程序安装到当前用户目录，不需要管理员权限。"
+            if _is_folder_payload()
+            else "点击「开始安装」继续。程序会安装到当前用户目录，不需要管理员权限。"
+        ),
         bg=CARD,
         fg=MUTED,
         font=("Microsoft YaHei UI", 8),

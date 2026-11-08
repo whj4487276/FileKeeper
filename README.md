@@ -18,8 +18,8 @@ python main.py
 不想安装 Python 时，可直接从 [GitHub Releases](https://github.com/whj4487276/FileKeeper/releases/latest)
 下载：
 
-- **安装版**：`FileKeeper-2.2.1-Setup.exe`，带桌面/开始菜单快捷方式；
-- **便携版**：`FileKeeper-2.2.1-Portable.exe`，单文件，配置在 exe 同目录的 `data\`。
+- **目录版安装包**：`FileKeeper-2.2.1-Setup-Folder.exe`，安装后是 exe + `_internal` 等多个文件/文件夹，带桌面/开始菜单快捷方式；
+- **单文件便携版**：`FileKeeper-2.2.1-Portable.exe`，只有一个 exe，配置在 exe 同目录的 `data\`。
 
 也可以直接下载仓库 ZIP 后双击 `run.bat`。如果你不想装 Python，可使用本地构建的
 `dist\电脑百宝箱.exe` 或安装包（构建产物不在仓库中，原因见 `.gitignore`）。
@@ -306,8 +306,16 @@ python main.py
 双击 `build_exe.bat` → `dist\电脑百宝箱.exe`（约 10 MB，免安装，双击即用）。
 `data\` 会生成在 exe 旁边，整个文件夹拷走即可。
 
-### 2. 安装包
+### 2. 安装包（单文件程序）
 先完成上面一步，再双击 `build_installer.bat` → `dist\电脑百宝箱安装包.exe`（约 20 MB）。
+
+### 3. 目录版安装包（多文件/文件夹）
+用于需要安装后保留完整目录树的场景：
+
+1. 双击 `build_folder_exe.bat` → `dist_folder\电脑百宝箱\`（exe、`_internal` 等）；
+2. 再双击 `build_folder_installer.bat` → `dist\电脑百宝箱安装包_目录版.exe`。
+
+安装后目标目录里是 `电脑百宝箱.exe`、`_internal\` 等多个文件和文件夹；卸载时只删除这些程序文件，`data\` 按用户选择保留或删除。
 
 安装包会：
 
@@ -318,6 +326,7 @@ python main.py
 
 > 也支持静默安装：
 > `电脑百宝箱安装包.exe --dir "D:\Apps\Box" --no-shortcuts --no-launch`
+> 目录版：`电脑百宝箱安装包_目录版.exe --dir "D:\Apps\Box" --no-shortcuts --no-launch`
 
 ![安装程序](docs/screenshots/12-installer.png)
 

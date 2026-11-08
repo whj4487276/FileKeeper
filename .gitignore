@@ -4,6 +4,7 @@ data/
 
 # 构建产物
 dist/
+dist_folder/
 build/
 *.spec
 __pycache__/
